@@ -1,0 +1,8 @@
+10_7_
+f,f,f,f,w,w,w,-,-,f,
+f,f,f,f,w,w,w,w,w,f,
+f,f,f,f,w,w,w,-,-,f,
+f,f,f,f,w,w,w,f,-,f,
+f,f,f,f,w,w,w,f,f,f,
+f,f,f,f,w,w,w,-,-,f,
+f,f,f,f,w,w,w,-,-,f

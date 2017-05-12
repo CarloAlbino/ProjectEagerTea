@@ -1,101 +1,86 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Text;
 using System.IO;
 
 public class MapLoading : MonoBehaviour {
 
-    public string m_mapFileName;
-
+    // File name to load
+    public string m_mapFileName;    // NOTE: We may need to do this a different way when loading many maps (dictionary perhaps)
+    // Reference to the grid class
     private AI.Grid m_grid;
 
-	// Use this for initialization
-	void Start () {
+	void Start ()
+    {
         m_grid = GetComponent<AI.Grid>();
         LoadMap(m_mapFileName);
 	}
 	
-	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
 		
 	}
 
-    // Load map code taken from http://answers.unity3d.com/questions/279750/loading-data-from-a-txt-file-c.html
+    // Load map code from a text file
     private bool LoadMap(string fileName)
     {
         string line;
-        // Create a new StreamReader, tell it which file to read and what encoding the file
-        // was saved as
-        StreamReader theReader = new StreamReader(Application.dataPath + "/" + fileName, Encoding.Default);
-        // Immediately clean up the reader after this block of code is done.
-        // You generally use the "using" statement for potentially memory-intensive objects
-        // instead of relying on garbage collection.
-        // (Do not confuse this with the using directive for namespace at the 
-        // beginning of a class!)
-        using (theReader)
+        line = string.Join("", File.ReadAllLines(Application.dataPath + "/" + fileName));   // Store the text file as 1 string, replace new lines with ""
+        if(line != null)                        // If there is somthing in the file
         {
-            line = string.Join("", File.ReadAllLines(Application.dataPath + "/" + fileName));
-            if(line != null)
+            string[] data = line.Split('_');    // Split the file at all the "_"    
+                                                // This creates an array of strings
+            if (data.Length > 0)                
             {
-                string[] data = line.Split('_');
-                if (data.Length > 0)
-                {
-                    BuildMap(data);
-                }
-                else
-                {
-                    Debug.LogWarning("Nothing in the map file.");
-                    theReader.Close();
-                    return false;
-                }
+                                                // The array of strings is passed on to build the map
+                BuildMap(data);
             }
-                // While there's lines left in the text file, do this:
-            //    do
-            //{
-            //    line = theReader.ReadLine();
-            //    // Do whatever you need to do with the text line, it's a string now
-            //    // In this example, I split it into arguments based on comma
-            //    // deliniators, then send that array to DoStuff()
-            //    string[] data = line.Split('_');
-            //    if (data.Length > 0)
-            //    {
-            //        BuildMap(data);
-            //    }
-            //    else
-            //    {
-            //        Debug.LogWarning("Nothing in the map file.");
-            //        theReader.Close();
-            //        return false;
-            //    }
-            //}
-            //while (line != null);
-            // Done reading, close the reader and return true to broadcast success    
-            theReader.Close();
-            return true;
+            else
+            {
+                Debug.LogError("Reading map file error.  File name: " + fileName);
+                return false;
+            }
         }
+        else
+        {
+            Debug.LogError("Nothing in the map file. File name: " + fileName);
+            return false;
+        }
+
+        return true;
     }
 
+    // Build the actual grid
     private void BuildMap(string[] data)
     {
-
-
         int width;
         int height;
-        int.TryParse(data[0], out width);
-        int.TryParse(data[1], out height);
+        // The first string in the array should be the width
+        // NOTE: TryParse tries to convert the string into an int
+        if(!int.TryParse(data[0], out width))
+        {
+            Debug.LogError("Width not read corretly.");
+        }
+        // The second string in the array should be the height
+        if(!int.TryParse(data[1], out height))
+        {
+            Debug.LogError("Height not read corretly.");
+        }
 
+        // Create the grid with the given dimensions
         m_grid.CreateNewGrid(width, height);
 
+        // The third srting in the array gets split futher into a new string array at every ","
         string[] mapData = data[2].Split(',');
         if (mapData.Length > 0)
         {
+            // Go through the whole grid that was created
             for(int x = 0; x < width; x++)
             {
                 for(int y = 0; y < height; y++)
                 {
                     AI.ENodeTypes newType = AI.ENodeTypes.Floor;
-                    int n = x * width + y;
+                    // Grab the data from the map data to see what type of tile is needed at the current coordinate
                     switch (mapData[y * width + x])
                     {
                         case "f":
@@ -112,9 +97,14 @@ public class MapLoading : MonoBehaviour {
                             break;
                     }
 
+                    // Set the tile to the type read from the map file
                     m_grid.SetGridTile(x, y, newType);
                 }
             }
+        }
+        else
+        {
+            Debug.LogError("No data in map file!");
         }
     }
 }
