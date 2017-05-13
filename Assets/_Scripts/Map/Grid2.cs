@@ -72,11 +72,11 @@ public class Grid2 : MonoBehaviour {
 
 
             }
-            //spawnPlayer();
+         
         }
              
 
-
+		spawnPlayer ();
 
     }
 
@@ -87,13 +87,30 @@ public class Grid2 : MonoBehaviour {
     public void spawnPlayer()
     {
         
+		//Instantiate(player,grassTiles[4,5].transform.position, Quaternion.identity);
 
-
-        //player 
-       
+		//The player GameObject
+		GameObject p = Instantiate(player,grassTiles[4,5].transform.position, Quaternion.identity);
+		p.GetComponent<PlayerMovement>().m_position = new Vector2 (4, 5);
        
 
     }
+
+
+
+	//Method for getting world position
+	public Vector3 getPosAt(int x, int y)
+	{
+		
+		if (x > -1 && y > -1 && x < grassTiles.GetLength (0) && y < grassTiles.GetLength (1))
+			return grassTiles [x, y].transform.position;
+		else
+			return Vector3.forward;
+
+	}
+
+
+
 
 
 
