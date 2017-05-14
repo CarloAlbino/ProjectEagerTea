@@ -48,6 +48,8 @@ public class PlayerMovement : MonoBehaviour {
 		if (Input.GetKeyDown (KeyCode.D)) {
 			m_position.x = m_position.x + 1;
 		}
+
+		Move ();
 	}
 
 
