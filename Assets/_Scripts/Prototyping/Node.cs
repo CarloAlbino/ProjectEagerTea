@@ -14,12 +14,11 @@ namespace AI
     [RequireComponent(typeof(SpriteRenderer), typeof(BoxCollider2D))]
     public class Node : MonoBehaviour, IHeapItem<Node>
     {
-
         // Grid variables
         public ENodeTypes nodeType;
-        public Vector3 worldPosition;
-        public int gridX;
-        public int gridY;
+        public Vector3 worldPosition { get; private set; }
+        public int gridX { get; private set; }
+        public int gridY { get; private set; }
 
         // A star variables
         public int gCost;

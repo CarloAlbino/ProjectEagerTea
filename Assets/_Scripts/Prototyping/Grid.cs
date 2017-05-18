@@ -6,7 +6,6 @@ namespace AI
 {
     public class Grid : MonoBehaviour
     {
-
         public Node nodeTilePrefab;
         public float squareSize = 1.0f;
         public Vector2 gridDimensions = new Vector2(100, 100);
@@ -20,11 +19,7 @@ namespace AI
 
         void Start()
         {
-            //gridWidth = Mathf.RoundToInt(gridDimensions.x / squareSize);
-            //gridHeight = Mathf.RoundToInt(gridDimensions.y / squareSize);
-            //squareSize /= 2;
-            //// Create the grid here
-            //CreateGrid();
+
         }
 
         float counter = 0;
@@ -90,6 +85,12 @@ namespace AI
                     m_grid[x, y].transform.parent = this.transform;
                 }
             }
+        }
+
+        // Use this to get the world position of a node.
+        public Vector3 GetNodeWorldPosition(int x, int y)
+        {
+            return m_grid[x, y].worldPosition;
         }
 
         public Node NodeFromWorldPoint(Vector3 worldPosition)

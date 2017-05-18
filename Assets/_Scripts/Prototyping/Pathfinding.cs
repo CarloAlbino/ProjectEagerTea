@@ -6,7 +6,6 @@ namespace AI
 {
     public class Pathfinding : MonoBehaviour
     {
-
         private Grid m_grid;
 
         void Start()
