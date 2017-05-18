@@ -65,7 +65,8 @@ namespace AI
 
         void OnMouseDown()
         {
-            FindObjectOfType<Pathfinding>().SetPathNode(this);
+            //FindObjectOfType<Pathfinding>().SetPathNode(this);
+            FindObjectOfType<TestPathReceiver>().SetPathNode(this);
         }
 
         public int heapIndex { get { return m_heapIndex; } set { m_heapIndex = value; } }
@@ -82,9 +83,10 @@ namespace AI
 
         public void SetColour(Color colour)
         {
-            Color newColor = colour;
-            newColor.a = 0.5f;
-            m_spriteRenderer.color += newColor;
+            //Color newColor = colour;
+            //newColor.a = 0.5f;
+            //m_spriteRenderer.color += newColor;
+            m_spriteRenderer.color = colour;
         }
 
         public void ResetColour()

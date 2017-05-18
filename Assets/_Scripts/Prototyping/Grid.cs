@@ -6,9 +6,12 @@ namespace AI
 {
     public class Grid : MonoBehaviour
     {
-        public Node nodeTilePrefab;
-        public float squareSize = 1.0f;
-        public Vector2 gridDimensions = new Vector2(100, 100);
+        [SerializeField]
+        private Node nodeTilePrefab;
+        [SerializeField]
+        private float squareSize = 1.0f;
+        [SerializeField]
+        private Vector2 gridDimensions = new Vector2(100, 100);
 
         private Node[,] m_grid;
         private int gridWidth, gridHeight;
@@ -28,26 +31,26 @@ namespace AI
         {
             if (path != null)
             {
-                if (path.Count > 0)
-                {
-                    //foreach(Node n in path)
-                    //{
-                    //    n.SetColour(Colors.Orange);
-                    //}
+                //if (path.Count > 0)
+                //{
+                //    //foreach(Node n in path)
+                //    //{
+                //    //    n.SetColour(Colors.Orange);
+                //    //}
 
-                    if (counter >= 0.4f)
-                    {
-                        counter = 0;
-                        if (prevNode != null)
-                        {
-                            prevNode.ResetColour();
-                        }
+                //    if (counter >= 0.4f)
+                //    {
+                //        counter = 0;
+                //        if (prevNode != null)
+                //        {
+                //            prevNode.ResetColour();
+                //        }
 
-                        prevNode = path.Pop();
-                        prevNode.SetColour(Colors.Orange);
-                    }
-                    counter += Time.deltaTime;
-                }
+                //        prevNode = path.Pop();
+                //        prevNode.SetColour(Colors.Orange);
+                //    }
+                //    counter += Time.deltaTime;
+                //}
             }
         }
 
@@ -91,6 +94,15 @@ namespace AI
         public Vector3 GetNodeWorldPosition(int x, int y)
         {
             return m_grid[x, y].worldPosition;
+        }
+
+        public bool IsWalkable(int x, int y)
+        {
+            if (m_grid[x, y].nodeType == ENodeTypes.Floor ||
+                m_grid[x, y].nodeType == ENodeTypes.Water)
+                return true;
+            else
+                return false;
         }
 
         public Node NodeFromWorldPoint(Vector3 worldPosition)
