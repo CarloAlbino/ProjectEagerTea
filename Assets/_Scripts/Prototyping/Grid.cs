@@ -20,11 +20,11 @@ namespace AI
 
         void Start()
         {
-            gridWidth = Mathf.RoundToInt(gridDimensions.x / squareSize);
-            gridHeight = Mathf.RoundToInt(gridDimensions.y / squareSize);
-            squareSize /= 2;
-            // Create the grid here
-            CreateGrid();
+            //gridWidth = Mathf.RoundToInt(gridDimensions.x / squareSize);
+            //gridHeight = Mathf.RoundToInt(gridDimensions.y / squareSize);
+            //squareSize /= 2;
+            //// Create the grid here
+            //CreateGrid();
         }
 
         float counter = 0;
@@ -56,30 +56,34 @@ namespace AI
             }
         }
 
+        public void CreateNewGrid(int x, int y)
+        {
+            gridWidth = x;// Mathf.RoundToInt(x / squareSize);
+            gridHeight = y;// Mathf.RoundToInt(y / squareSize);
+            squareSize /= 2;
+            gridDimensions = new Vector2(gridWidth * squareSize, gridHeight * squareSize);
+
+            // Create the grid here
+            CreateGrid();
+        }
+
+        public void SetGridTile(int x, int y, ENodeTypes type)
+        {
+            m_grid[x, y].nodeType = type;
+            m_grid[x, y].ResetColour();
+        }
+
         private void CreateGrid()
         {
             m_grid = new Node[gridWidth, gridHeight];
-            Vector3 gridBottomLeft = transform.position - Vector3.right * gridDimensions.x / 2 - Vector3.up * gridDimensions.y / 2;
+            Vector3 gridTopLeft = transform.position - Vector3.right * gridDimensions.x / 2 - Vector3.down * gridDimensions.y / 2;
 
             for (int x = 0; x < gridWidth; x++)
             {
                 for (int y = 0; y < gridHeight; y++)
                 {
-                    Vector3 newNodePos = gridBottomLeft + Vector3.right * (x * squareSize) + Vector3.up * (y * squareSize);
-                    int randomType = Random.Range(0, 1000);
+                    Vector3 newNodePos = gridTopLeft + Vector3.right * (x * squareSize) + Vector3.down * (y * squareSize);
                     ENodeTypes newType = ENodeTypes.Floor;
-                    if (randomType < 200)
-                    {
-                        newType = ENodeTypes.Wall;
-                    }
-                    else if (randomType < 300)
-                    {
-                        newType = ENodeTypes.Water;
-                    }
-                    else
-                    {
-                        newType = ENodeTypes.Floor;
-                    }
 
                     m_grid[x, y] = Instantiate(nodeTilePrefab, newNodePos, transform.rotation);
                     m_grid[x, y].SetDefaults(newType, newNodePos, x, y);
