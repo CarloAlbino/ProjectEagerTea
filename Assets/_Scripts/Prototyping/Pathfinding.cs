@@ -7,13 +7,21 @@ namespace AI
     public class Pathfinding : MonoBehaviour
     {
         private Grid m_grid;
+        private Stack<Node> m_path = new Stack<Node>();
 
-        void Start()
+        //void Start()
+        //{
+        //    m_grid = GetComponent<Grid>();
+        //}
+
+        public Stack<Node> GetPath(Grid grid, Node startNode, Node targetNode)
         {
-            m_grid = GetComponent<Grid>();
+            m_grid = grid;
+            FindPath(startNode, targetNode);
+            return m_path;
         }
 
-        public void FindPath(Node startNode, Node targetNode)
+        private void FindPath(Node startNode, Node targetNode)
         {
             Heap<Node> openSet = new Heap<Node>(m_grid.maxSize);
             HashSet<Node> closedSet = new HashSet<Node>();
@@ -71,8 +79,9 @@ namespace AI
 
             //path.Reverse();
 
-
-            m_grid.path = path;
+            //m_grid.path = path;
+            m_path = new Stack<Node>();
+            m_path = path;
         }
 
         private int GetDistance(Node nodeA, Node nodeB)
@@ -85,30 +94,30 @@ namespace AI
             return 14 * dstX + 10 * (dstY - dstX) + (int)nodeA.nodeType + (int)nodeB.nodeType;
         }
 
-        private Node startNode = null;
-        private Node endNode = null;
+        //private Node startNode = null;
+        //private Node endNode = null;
 
-        public void SetPathNode(Node node)
-        {
-            if (startNode == null)
-            {
-                startNode = node;
-                node.SetColour(Colors.Red);
-            }
-            else if (endNode == null)
-            {
-                endNode = node;
-                FindPath(startNode, endNode);
-                node.SetColour(Colors.Yellow);
-            }
-            else
-            {
-                startNode.ResetColour();
-                endNode.ResetColour();
-                startNode = node;
-                endNode = null;
-                node.SetColour(Colors.Red);
-            }
-        }
+        //public void SetPathNode(Node node)
+        //{
+        //    if (startNode == null)
+        //    {
+        //        startNode = node;
+        //        node.SetColour(Colors.Red);
+        //    }
+        //    else if (endNode == null)
+        //    {
+        //        endNode = node;
+        //        FindPath(startNode, endNode);
+        //        node.SetColour(Colors.Yellow);
+        //    }
+        //    else
+        //    {
+        //        startNode.ResetColour();
+        //        endNode.ResetColour();
+        //        startNode = node;
+        //        endNode = null;
+        //        node.SetColour(Colors.Red);
+        //    }
+        //}
     }
 }
