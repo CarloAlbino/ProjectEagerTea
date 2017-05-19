@@ -13,9 +13,6 @@ public class PlayerMovement : MonoBehaviour {
 	public Vector2 m_position;
 
 
-
-
-
 	// Use this for initialization
 	void Start () {
 
@@ -25,43 +22,73 @@ public class PlayerMovement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
-		//Player Movement
 
-		//Up
-		if (Input.GetKeyDown (KeyCode.W)) {
-			m_position.y = m_position.y + 1;
-		}
-	
+        Move();
 
-		//Down
-		if (Input.GetKeyDown (KeyCode.S)) {
-			m_position.y = m_position.y - 1;
-		}
+      
 
-		//Left
-		if (Input.GetKeyDown (KeyCode.A)) {
-			m_position.x = m_position.x - 1;
-		}
+        //Temp position
+        Vector2 tempPos = m_position;
 
-		//Right
-		if (Input.GetKeyDown (KeyCode.D)) {
-			m_position.x = m_position.x + 1;
-		}
+        processInput();
 
-		Move ();
-	}
+        //Check to see if players pos is false and if it is, player can't move.
+        if (Move() == false) 
+        {
+            m_position = tempPos; // The moving pos becomes a temp pos.
+        }
+
+        
+    }
 
 
-	//
-	private void Move()
+    //Movement Method
+    private void processInput()
+    {
+        
+
+        //Up
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            m_position.y = m_position.y + 1;
+        }
+
+
+        //Down
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            m_position.y = m_position.y - 1;
+        }
+
+        //Left
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            m_position.x = m_position.x - 1;
+        }
+
+        //Right
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            m_position.x = m_position.x + 1;
+        }
+
+       
+    }
+
+
+    //Method set to bool 
+    private bool Move()
 	{
 
-		if(m_grid.getPosAt((int)m_position.x, (int) m_position.y).z != 1)
-		{
-			transform.position = m_grid.getPosAt((int)m_position.x, (int) m_position.y);
-		}
-	}
+        if (m_grid.getPosAt((int)m_position.x, (int)m_position.y).z != 1)
+        {
+            transform.position = m_grid.getPosAt((int)m_position.x, (int)m_position.y);
+            return true;
+        }
+
+        else
+            return false;
+    }
 
 
 
