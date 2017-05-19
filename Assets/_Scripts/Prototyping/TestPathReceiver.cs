@@ -5,11 +5,11 @@ using AI;
 
 public class TestPathReceiver : MonoBehaviour {
 
-    private Pathfinding pathfinding = null;
+    private Pathfinding pathfinding = null; // reference to pathfinding script and setting it to null
     private Stack<Node> path;
 
-    private Grid m_grid;
-    private Node startNode = null;
+    private Grid m_grid;   
+    private Node startNode = null; //startNode and endNode set to null at the start
     private Node endNode = null;
 
     float counter = 0;
@@ -24,19 +24,19 @@ public class TestPathReceiver : MonoBehaviour {
     {
         if (path != null)
         {
-            if (path.Count > 0)
+            if (path.Count > 0) //If the path count is > than "0" colour of the path will change.
             {
                 foreach (Node n in path)
                 {
-                    n.SetColour(Colors.RosyBrown);
+                    n.SetColour(Colors.RosyBrown); //Setting the colour of the path
                 }
 
                 if (counter >= 0.4f)
                 {
-                    counter = 0;
+                    counter = 0; //Set the counter to 0
                     if (prevNode != null)
                     {
-                        prevNode.ResetColour();
+                        prevNode.ResetColour(); //Colour gets reset
                     }
 
                     prevNode = path.Pop();
@@ -47,13 +47,14 @@ public class TestPathReceiver : MonoBehaviour {
         }
     }
 
+    //Set PathNode function
     public void SetPathNode(Node node)
     {
         if (startNode == null)
         {
             startNode = node;
             m_grid = startNode.GetComponentInParent<Grid>();
-            node.SetColour(Colors.Red);
+            node.SetColour(Colors.Red); //Starting node gets set to Red
         }
         else if (endNode == null)
         {
