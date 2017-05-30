@@ -63,6 +63,20 @@ namespace AI
 
         }
 
+        //Mouse hover
+        void OnMouseOver()
+        {
+            SetColour(Colors.Purple);
+
+        }
+
+        //Mouse on exit
+        void OnMouseExit()
+        {
+            ResetColour();
+        }
+
+
         void OnMouseDown()
         {
             //FindObjectOfType<Pathfinding>().SetPathNode(this);

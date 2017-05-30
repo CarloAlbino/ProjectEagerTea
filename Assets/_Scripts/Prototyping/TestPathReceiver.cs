@@ -14,6 +14,7 @@ public class TestPathReceiver : MonoBehaviour {
 
     float counter = 0;
     Node prevNode = null;
+    private GameObject player;
 
     void Start ()
     {
@@ -40,7 +41,11 @@ public class TestPathReceiver : MonoBehaviour {
                     }
 
                     prevNode = path.Pop();
+
                     prevNode.SetColour(Colors.Orange);
+                    
+                    //Set the players position to the previous node(first thing)
+                    player.transform.position = prevNode.transform.position;
                 }
                 counter += Time.deltaTime;
             }
@@ -71,4 +76,13 @@ public class TestPathReceiver : MonoBehaviour {
             node.SetColour(Colors.Red);
         }
     }
+
+
+    //Set players position function
+    public void setPlayer(GameObject p)
+    {
+        player = p;
+    }
+
+
 }

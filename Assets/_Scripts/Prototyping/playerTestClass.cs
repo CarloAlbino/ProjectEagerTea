@@ -23,10 +23,6 @@ public class playerTestClass : MonoBehaviour {
     public int m_range;
 
    
-    
-    // Note: get the world pos from the grid
-
-
     // Use this for initialization
 	void Start () {
 
@@ -35,18 +31,14 @@ public class playerTestClass : MonoBehaviour {
         m_node = FindObjectOfType<Node>();
 
 
-
+        SpawnPlayer();
 
     }
 
     // Update is called once per frame
     void Update () {
-        SpawnPlayer();
+       
 	}
-
-
-
-
 
 
     //Spawn player in the world
@@ -54,11 +46,9 @@ public class playerTestClass : MonoBehaviour {
     {
         GameObject m_player = Instantiate(player, t_grid.GetNodeWorldPosition(1, 1), Quaternion.identity);
 
-
-        
+        //Reference to testPathReciever script, setting the players pos.
+        FindObjectOfType<TestPathReceiver>().setPlayer(m_player);
     }
-
-
 
 
 
@@ -69,17 +59,6 @@ public class playerTestClass : MonoBehaviour {
     }
 
 
-    //We want the "Path" to be highlighted from the "current point" all the way to the "end point"
-    //Mouse over method
-
-    //Highlight the current "Grid Space" to a different colour
-    void OnMouseOver(Node node)
-    {
-        node.SetColour(Colors.Purple);
-
-    }
-
-
-
+    
 
 }
