@@ -160,8 +160,12 @@ public class MapEditor : EditorWindow
             {
                 for (int x = 0; x < map.x; x++)
                 {
+                    //GUI.DrawTextureWithTexCoords(new Rect(x * tile.x + mapViewOffset.x, y * tile.y + mapViewOffset.y, tile.x, tile.y), texture2D,
+                    //                               new Rect(((int)(MapData.tempMap[x, y] / MapData.textureDimension.x) + 1) * 16, ((int)(MapData.tempMap[x, y] % MapData.textureDimension.y) + 1) * 16, 16, 16));
+                    //GUI.DrawTextureWithTexCoords(new Rect(x * tile.x + mapViewOffset.x, y * tile.y + mapViewOffset.y, tile.x, tile.y), texture2D,
+                    //                               new Rect(MapData.currentSelectedCoords.x * 16 + 1, MapData.currentSelectedCoords.y * 16 + 1, 16, 16));
                     GUI.DrawTextureWithTexCoords(new Rect(x * tile.x + mapViewOffset.x, y * tile.y + mapViewOffset.y, tile.x, tile.y), texture2D,
-                                                    new Rect(((int)(MapData.tempMap[x, y] / MapData.textureDimension.x) + 1) * 16, ((int)(MapData.tempMap[x, y] % MapData.textureDimension.y) + 1) * 16, 16, 16));
+                                                  new Rect(35, 35, 16, 16));
                 }
             }
             #endregion GUI Display
@@ -192,13 +196,11 @@ public class MapEditor : EditorWindow
                 if (cEvent.type == EventType.mouseDown && cEvent.button == 0 && mousePos.y < offset.y + newTextureSize.y)
                 {
                     currentSelection = pickerHover;
-                    // Set the currently selected sprite accordingly
-                    MapData.currentSprite = (int)(currentSelection.x * grid.x + currentSelection.y);
-                    Debug.Log("Setting current sprite: " + MapData.currentSprite);
-                    //Debug.Log("Dimensions: " + (MapData.textureDimension.x) + " " + (MapData.textureDimension.y));
-                    //Debug.Log("x " + ((MapData.currentSprite % MapData.textureDimension.x) + 1) + " y " + ((int)(MapData.currentSprite / MapData.textureDimension.y) + 1));
 
+                    // Set the currently selected sprite accordingly
+                    MapData.currentSprite = (int)(currentSelection.y * grid.x + currentSelection.x);
                     MapData.currentSelectedCoords = currentSelection;
+                    Debug.Log("X: " + MapData.currentSelectedCoords.x * 16 + " Y: " + MapData.currentSelectedCoords.y * 16);
                 }
             }
             else
@@ -225,20 +227,19 @@ public class MapEditor : EditorWindow
                 GUI.Box(new Rect(mapHover.x * tile.x + mapViewOffset.x, mapHover.y * tile.y + mapViewOffset.y, tile.x, tile.y), "", style);
 
                 // Mouse click in map area
-                if (cEvent.type == EventType.mouseDown && cEvent.button == 0 && mousePos.y > mapViewOffset.y)
+                if (cEvent.type == EventType.mouseDown && cEvent.button == 0)
                 {
                     // Set new tile
-                    //Debug.Log("Setting Tile: " + (int)hoverSelection.x + " " + (int)hoverSelection.y);
-                    //MapData.SetTile((int)mapHover.x, (int)mapHover.y);
-                    Debug.Log("In map");
+                    MapData.SetTile((int)mapHover.x, (int)mapHover.y);
                 }
             }
             #endregion GUI Input
 
-            // Rerender
-            Repaint();
             // End Scroll View
             GUI.EndScrollView();
+
+            // Rerender
+            Repaint();
         }
     }
 }
