@@ -79,12 +79,12 @@ public class MapLoading : MonoBehaviour {
             {
                 for(int y = 0; y < height; y++)
                 {
-                    AI.ENodeTypes newType = AI.ENodeTypes.Floor;
+                    AI.ENodeTypes newType = AI.ENodeTypes.Path;
                     // Grab the data from the map data to see what type of tile is needed at the current coordinate
                     switch (mapData[y * width + x])
                     {
                         case "f":
-                            newType = AI.ENodeTypes.Floor;
+                            newType = AI.ENodeTypes.Path;
                             break;
                         case "w":
                             newType = AI.ENodeTypes.Water;
@@ -93,7 +93,7 @@ public class MapLoading : MonoBehaviour {
                             newType = AI.ENodeTypes.Wall;
                             break;
                         default:
-                            newType = AI.ENodeTypes.Floor;
+                            newType = AI.ENodeTypes.Path;
                             break;
                     }
 

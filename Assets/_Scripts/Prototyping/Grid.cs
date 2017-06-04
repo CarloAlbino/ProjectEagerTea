@@ -81,7 +81,7 @@ namespace AI
                 for (int y = 0; y < gridHeight; y++)
                 {
                     Vector3 newNodePos = gridTopLeft + Vector3.right * (x * squareSize) + Vector3.down * (y * squareSize);
-                    ENodeTypes newType = ENodeTypes.Floor;
+                    ENodeTypes newType = ENodeTypes.Path;
 
                     m_grid[x, y] = Instantiate(nodeTilePrefab, newNodePos, transform.rotation);
                     m_grid[x, y].SetDefaults(newType, newNodePos, x, y);
@@ -98,7 +98,7 @@ namespace AI
 
         public bool IsWalkable(int x, int y)
         {
-            if (m_grid[x, y].nodeType == ENodeTypes.Floor ||
+            if (m_grid[x, y].nodeType == ENodeTypes.Path ||
                 m_grid[x, y].nodeType == ENodeTypes.Water)
                 return true;
             else

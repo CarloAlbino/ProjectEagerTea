@@ -3,11 +3,16 @@ using UnityEngine;
 namespace AI
 {
     public enum ENodeTypes
-    {
-        Floor,
-        Water,
-        None,
-        Wall,
+    {               // Notation in map files
+        None,       // n
+        Exit,       // e
+        Path,       // p
+        Ground,     // g
+        Water,      // w
+        Hill,       // h
+        Tree,       // t
+        Building,   // b
+        Wall,       // x
         TypeCount
     }
 
@@ -40,7 +45,7 @@ namespace AI
 
             switch (nodeType)
             {
-                case ENodeTypes.Floor:
+                case ENodeTypes.Path:
                     m_spriteRenderer.color = Colors.ForestGreen;
                     break;
                 case ENodeTypes.Water:
@@ -93,7 +98,7 @@ namespace AI
         {
             switch (nodeType)
             {
-                case ENodeTypes.Floor:
+                case ENodeTypes.Path:
                     m_spriteRenderer.color = Colors.ForestGreen;
                     break;
                 case ENodeTypes.Water:
