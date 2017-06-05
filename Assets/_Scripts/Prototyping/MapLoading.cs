@@ -82,7 +82,7 @@ public class MapLoading : MonoBehaviour {
             {
                 for(int y = 0; y < height; y++)
                 {
-                    Debug.Log(x + " " + y);
+                    //Debug.Log(x + " " + y);
                     string[] cellData = mapData[x + y * height].Split('=');
                     AI.ENodeTypes newType = AI.ENodeTypes.None;
                     // Grab the data from the map data to see what type of tile is needed at the current coordinate
