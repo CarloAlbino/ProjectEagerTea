@@ -25,6 +25,11 @@ namespace AI
         public int gridX { get; private set; }
         public int gridY { get; private set; }
 
+        // Visuals
+        private string m_fileName;
+        private string m_spriteNum;
+        private Sprite m_sprite;
+
         // A star variables
         public int gCost;
         public int hCost;
@@ -96,22 +101,37 @@ namespace AI
 
         public void ResetColour()
         {
-            switch (nodeType)
-            {
-                case ENodeTypes.Path:
-                    m_spriteRenderer.color = Colors.ForestGreen;
-                    break;
-                case ENodeTypes.Water:
-                    m_spriteRenderer.color = Colors.DodgerBlue;
-                    break;
-                case ENodeTypes.Wall:
-                    m_spriteRenderer.color = Colors.DarkGray;
-                    break;
-                case ENodeTypes.None:
-                default:
-                    m_spriteRenderer.color = Colors.NavajoWhite;
-                    break;
-            }
+            m_spriteRenderer.color = Colors.White;
+            //switch (nodeType)
+            //{
+            //    case ENodeTypes.Path:
+            //        m_spriteRenderer.color = Colors.White;
+            //        break;
+            //    case ENodeTypes.Water:
+            //        m_spriteRenderer.color = Colors.DodgerBlue;
+            //        break;
+            //    case ENodeTypes.Wall:
+            //        m_spriteRenderer.color = Colors.DarkGray;
+            //        break;
+            //    case ENodeTypes.None:
+            //    default:
+            //        m_spriteRenderer.color = Colors.NavajoWhite;
+            //        break;
+            //}
+        }
+
+        public void SetSprite(string fileName, string tileNum)
+        {
+            m_fileName = fileName;
+            m_spriteNum = tileNum;
+
+            Sprite[] spriteAll = Resources.LoadAll<Sprite>("MapTiles/" + m_fileName);
+            m_sprite = spriteAll[int.Parse(tileNum)];
+
+            m_spriteRenderer.sprite = m_sprite;
+
+            Destroy(GetComponent<BoxCollider2D>());
+            this.gameObject.AddComponent<BoxCollider2D>();
         }
     }
 }

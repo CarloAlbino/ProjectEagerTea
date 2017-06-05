@@ -80,6 +80,26 @@ public class MapEditor : EditorWindow
     private Vector2 mapViewOffset = Vector2.zero;
     private Vector2 mapHover = Vector2.zero;      // Position of tile the mouse is over map
 
+    private Texture2D[,] tiles;
+    private bool isTextureLoaded = false;
+
+    void LoadTextures()
+    {
+        var texture2D = MapData.texture;    // Get the map texture
+        tiles = new Texture2D[texture2D.width / 16, texture2D.height / 16];
+        for (int y = 0; y < texture2D.height / 16; y++)
+        {
+            for (int x = 0; x < texture2D.width / 16; x++)
+            {
+                var pixels = texture2D.GetPixels(x * 16, y * 16, 16, 16);
+                tiles[x, y] = new Texture2D(16, 16);
+                tiles[x, y].SetPixels(pixels);
+                tiles[x, y].Apply();
+            }
+        }
+        isTextureLoaded = true;
+    }
+
     void OnGUI()
     {
         var texture2D = MapData.texture;    // Get the map name to load
@@ -92,6 +112,11 @@ public class MapEditor : EditorWindow
             var newTextureSize = new Vector2(texture2D.width, texture2D.height) * newScale;
             var offset = new Vector2(10, 65);
             mapViewOffset = new Vector2(10, newTextureSize.y + 85);
+
+            if(isTextureLoaded == false)
+            {
+                LoadTextures();
+            }
 
             // Export Button
             if (GUILayout.Button("Save Map"))
@@ -160,13 +185,13 @@ public class MapEditor : EditorWindow
             {
                 for (int x = 0; x < map.x; x++)
                 { 
-                    var pixels = texture2D.GetPixels((int)MapData.tempMapCoords[x, y].x * (int)tile.x, (int)MapData.tempMapCoords[x, y].y * (int)tile.y, (int)tile.x, (int)tile.y);
-                    var newTexture = new Texture2D((int)tile.x, (int)tile.y);
-                    newTexture.SetPixels(pixels);
-                    newTexture.Apply();
-
-                    GUI.DrawTexture(new Rect(x * tile.x + mapViewOffset.x, y * tile.y + mapViewOffset.y, tile.x, tile.y), newTexture);
-
+                    //var pixels = texture2D.GetPixels((int)MapData.tempMapCoords[x, y].x * (int)tile.x, (int)MapData.tempMapCoords[x, y].y * (int)tile.y, (int)tile.x, (int)tile.y);
+                    //var newTexture = new Texture2D((int)tile.x, (int)tile.y);
+                    //newTexture.SetPixels(pixels);
+                    //newTexture.Apply();
+                    
+                    //GUI.DrawTexture(new Rect(x * tile.x + mapViewOffset.x, y * tile.y + mapViewOffset.y, tile.x, tile.y), newTexture);
+                    GUI.DrawTexture(new Rect(x * tile.x + mapViewOffset.x, y * tile.y + mapViewOffset.y, tile.x, tile.y), tiles[(int)MapData.tempMapCoords[x, y].x, (int)MapData.tempMapCoords[x, y].y]);
                     //GUI.DrawTextureWithTexCoords(new Rect(x * tile.x + mapViewOffset.x, y * tile.y + mapViewOffset.y, tile.x, tile.y), texture2D,
                     //                               new Rect(((int)(MapData.tempMap[x, y] / MapData.textureDimension.x) + 1) * 16, ((int)(MapData.tempMap[x, y] % MapData.textureDimension.y) + 1) * 16, 16, 16));
                     //GUI.DrawTextureWithTexCoords(new Rect(x * tile.x + mapViewOffset.x, y * tile.y + mapViewOffset.y, tile.x, tile.y), texture2D,

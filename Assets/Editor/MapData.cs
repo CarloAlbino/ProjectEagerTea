@@ -18,7 +18,7 @@ public static class MapData{
 
     private static int[] exitInts = { 17, 32 };
     private static int[] pathInts = { 114, 115, 116, 117, 118, 131, 132, 133, 135, 149, 150, 151, 152};
-    private static int[] groundInts = { 0, 1, 2, 3, 18, 19, 20, 35, 36, 27, 157 };
+    private static int[] groundInts = { 0, 1, 2, 3, 18, 19, 20, 35, 36, 37, 157 };
     private static int[] waterInts = { 10, 11, 12, 13, 14, 15, 16, 27, 28, 30, 31, 32, 33, 44, 45, 46, 47, 48, 49, 50 };
     private static int[] hillInts = { 107, 108, 109, 124, 125, 126, 140, 141, 142, 143, 174 };
     private static int[] treeInts = { 4, 21, 55, 72 };
@@ -52,6 +52,8 @@ public static class MapData{
         currentMap = "";
         currentMap += mapDimensions.x + "_" + mapDimensions.y + "_";
         currentMap += texture.name + "_\n";
+
+        bool found = false;
         for(int y = 0; y < mapDimensions.x; y++)
         {
             for(int x = 0; x < mapDimensions.y; x++)
@@ -61,6 +63,7 @@ public static class MapData{
                     if(tempMap[x, y] == wallInts[i])
                     {
                         currentMap += "x=" + tempMap[x, y];
+                        found = true;
                         break;
                     }
                 }
@@ -69,6 +72,7 @@ public static class MapData{
                     if (tempMap[x, y] == buildingInts[i])
                     {
                         currentMap += "b=" + tempMap[x, y];
+                        found = true;
                         break;
                     }
                 }
@@ -77,6 +81,7 @@ public static class MapData{
                     if (tempMap[x, y] == treeInts[i])
                     {
                         currentMap += "t=" + tempMap[x, y];
+                        found = true;
                         break;
                     }
                 }
@@ -85,6 +90,7 @@ public static class MapData{
                     if (tempMap[x, y] == hillInts[i])
                     {
                         currentMap += "h=" + tempMap[x, y];
+                        found = true;
                         break;
                     }
                 }
@@ -93,6 +99,7 @@ public static class MapData{
                     if (tempMap[x, y] == waterInts[i])
                     {
                         currentMap += "w=" + tempMap[x, y];
+                        found = true;
                         break;
                     }
                 }
@@ -101,6 +108,7 @@ public static class MapData{
                     if (tempMap[x, y] == groundInts[i])
                     {
                         currentMap += "g=" + tempMap[x, y];
+                        found = true;
                         break;
                     }
                 }
@@ -109,6 +117,7 @@ public static class MapData{
                     if (tempMap[x, y] == pathInts[i])
                     {
                         currentMap += "p=" + tempMap[x, y];
+                        found = true;
                         break;
                     }
                 }
@@ -117,8 +126,13 @@ public static class MapData{
                     if (tempMap[x, y] == exitInts[i])
                     {
                         currentMap += "e=" + tempMap[x, y];
+                        found = true;
                         break;
                     }
+                }
+                if(!found)
+                {
+                    currentMap += "g=0";
                 }
                 currentMap += ",";
             }

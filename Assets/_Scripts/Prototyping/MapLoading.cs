@@ -55,6 +55,7 @@ public class MapLoading : MonoBehaviour {
     {
         int width;
         int height;
+        string mapType;
         // The first string in the array should be the width
         // NOTE: TryParse tries to convert the string into an int
         if(!int.TryParse(data[0], out width))
@@ -67,11 +68,13 @@ public class MapLoading : MonoBehaviour {
             Debug.LogError("Height not read corretly.");
         }
 
+        mapType = data[2];
+
         // Create the grid with the given dimensions
         m_grid.CreateNewGrid(width, height);
 
         // The third srting in the array gets split futher into a new string array at every ","
-        string[] mapData = data[2].Split(',');
+        string[] mapData = data[3].Split(',');
         if (mapData.Length > 0)
         {
             // Go through the whole grid that was created
@@ -79,26 +82,44 @@ public class MapLoading : MonoBehaviour {
             {
                 for(int y = 0; y < height; y++)
                 {
-                    AI.ENodeTypes newType = AI.ENodeTypes.Path;
+                    Debug.Log(x + " " + y);
+                    string[] cellData = mapData[x + y * height].Split('=');
+                    AI.ENodeTypes newType = AI.ENodeTypes.None;
                     // Grab the data from the map data to see what type of tile is needed at the current coordinate
-                    switch (mapData[y * width + x])
+                    switch (cellData[0])
                     {
-                        case "f":
+                        case "n":
+                            newType = AI.ENodeTypes.None;
+                            break;
+                        case "e":
+                            newType = AI.ENodeTypes.Exit;
+                            break;
+                        case "p":
                             newType = AI.ENodeTypes.Path;
+                            break;
+                        case "g":
+                            newType = AI.ENodeTypes.Ground;
                             break;
                         case "w":
                             newType = AI.ENodeTypes.Water;
                             break;
-                        case "-":
+                        case "h":
+                            newType = AI.ENodeTypes.Hill;
+                            break;
+                        case "b":
+                            newType = AI.ENodeTypes.Building;
+                            break;
+                        case "x":
                             newType = AI.ENodeTypes.Wall;
                             break;
                         default:
-                            newType = AI.ENodeTypes.Path;
+                            newType = AI.ENodeTypes.None;
                             break;
                     }
 
                     // Set the tile to the type read from the map file
-                    m_grid.SetGridTile(x, y, newType);
+                    if(cellData.Length > 0)
+                        m_grid.SetGridTile(x, y, newType, mapType, cellData[1]);
                 }
             }
         }
