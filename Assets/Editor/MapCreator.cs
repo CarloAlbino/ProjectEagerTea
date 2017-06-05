@@ -24,7 +24,7 @@ public class MapCreator : EditorWindow
 
 
     // Add menu item named "My Window" to the Window menu
-    [MenuItem("Window/MapCreator")]
+    [MenuItem("Window/Map Creator")]
     public static void ShowWindow()
     {
         //Show existing window instance. If one doesn't exist, make one.
@@ -40,10 +40,10 @@ public class MapCreator : EditorWindow
         saveFolder = EditorGUILayout.TextField("Save Folder", saveFolder);
         mapName = EditorGUILayout.TextField("Map Name", mapName);
 
-        if (GUILayout.Button("Create"))
+        if (GUILayout.Button("Load"))
         {
-            Debug.Log("Create a map");
-            MapData.NewMap(width, height, Resources.Load<Texture2D>("Editor/" + environmentType.ToString()), mapName, saveFolder);
+            Debug.Log("Loading a map");
+            MapData.LoadMap(mapName, saveFolder);
 
             string map = "";
             for (int y = 0; y < MapData.tempMap.GetLength(1); y++)
@@ -54,9 +54,19 @@ public class MapCreator : EditorWindow
                 }
                 map += "\n";
             }
-            //Debug.Log(map);
+
+            Debug.Log(map);
+            Debug.Log("Map Loaded!");
             EditorWindow.GetWindow(typeof(MapEditor));
-            //EditorWindow.GetWindow(typeof(MapDisplay));
+            Close();
+        }
+
+        if (GUILayout.Button("Create"))
+        {
+            Debug.Log("Create a map");
+            MapData.NewMap(width, height, Resources.Load<Texture2D>("Editor/" + environmentType.ToString()), mapName, saveFolder);
+
+            EditorWindow.GetWindow(typeof(MapEditor));
             Close();
         }
     }
@@ -69,7 +79,12 @@ public class MapEditor : EditorWindow
         x1, x2, x3, x4, x5
     }
 
+    public enum FunLevel
+    {
+        Yea, Yes, HellYes
+    }
     private Scale scale;    // Scale to display the texture
+    private FunLevel fun;
 
     private Vector2 currentSelection = Vector2.zero;    // Currently selected tile
     private Vector2 pickerHover = Vector2.zero;      // Position of tile the mouse is over picker
@@ -86,6 +101,7 @@ public class MapEditor : EditorWindow
     void LoadTextures()
     {
         var texture2D = MapData.texture;    // Get the map texture
+        //Debug.Log(texture2D.width / 16 + " " + texture2D.height / 16);
         tiles = new Texture2D[texture2D.width / 16, texture2D.height / 16];
         for (int y = 0; y < texture2D.height / 16; y++)
         {
@@ -107,7 +123,10 @@ public class MapEditor : EditorWindow
         if(texture2D != null){
             #region GUI Display
             // Scale the texture view based on the selected choice from the popup
-            scale = (Scale)EditorGUILayout.EnumPopup("Zoom", scale);
+            //scale = (Scale)EditorGUILayout.EnumPopup("Zoom", scale);
+            scale = Scale.x1;
+            fun = (FunLevel)EditorGUILayout.EnumPopup("Having fun?", fun);  // This is here so I dont have to recalculate off sets again, remove this is scale is field works properly.
+
             var newScale = ((int)scale) + 1;
             var newTextureSize = new Vector2(texture2D.width, texture2D.height) * newScale;
             var offset = new Vector2(10, 65);
@@ -180,27 +199,16 @@ public class MapEditor : EditorWindow
             // For map view hover
             mapHover = new Vector2(tile.x * mapHover.x + mapViewOffset.x, tile.y * mapHover.y + mapViewOffset.y);
 
+            Debug.Log(tiles.GetLength(0) + " " + tiles.GetLength(1));
+            Debug.Log("Map: " + map);
             // Draw map grid
             for (int y = 0; y < map.y; y++)
             {
                 for (int x = 0; x < map.x; x++)
-                { 
-                    //var pixels = texture2D.GetPixels((int)MapData.tempMapCoords[x, y].x * (int)tile.x, (int)MapData.tempMapCoords[x, y].y * (int)tile.y, (int)tile.x, (int)tile.y);
-                    //var newTexture = new Texture2D((int)tile.x, (int)tile.y);
-                    //newTexture.SetPixels(pixels);
-                    //newTexture.Apply();
-                    
-                    //GUI.DrawTexture(new Rect(x * tile.x + mapViewOffset.x, y * tile.y + mapViewOffset.y, tile.x, tile.y), newTexture);
+                {
+                    Debug.Log(MapData.tempMapCoords[x, y] + " x " + x + " y " + y);
+                    Debug.Log(tiles[(int)MapData.tempMapCoords[x, y].x, (int)MapData.tempMapCoords[x, y].y]);
                     GUI.DrawTexture(new Rect(x * tile.x + mapViewOffset.x, y * tile.y + mapViewOffset.y, tile.x, tile.y), tiles[(int)MapData.tempMapCoords[x, y].x, (int)MapData.tempMapCoords[x, y].y]);
-                    //GUI.DrawTextureWithTexCoords(new Rect(x * tile.x + mapViewOffset.x, y * tile.y + mapViewOffset.y, tile.x, tile.y), texture2D,
-                    //                               new Rect(((int)(MapData.tempMap[x, y] / MapData.textureDimension.x) + 1) * 16, ((int)(MapData.tempMap[x, y] % MapData.textureDimension.y) + 1) * 16, 16, 16));
-                    //GUI.DrawTextureWithTexCoords(new Rect(x * tile.x + mapViewOffset.x, y * tile.y + mapViewOffset.y, tile.x, tile.y), texture2D,
-                    //                               new Rect(MapData.currentSelectedCoords.x * 16 + 1, MapData.currentSelectedCoords.y * 16 + 1, 16, 16));
-                    //GUI.BeginGroup(new Rect(x * tile.x + mapViewOffset.x, y * tile.y + mapViewOffset.y, tile.x, tile.y));
-                    //GUI.Label(new Rect(-((int)(MapData.tempMap[x, y] / MapData.textureDimension.x) + 1) * 16, -((int)(MapData.tempMap[x, y] % MapData.textureDimension.y) + 1) * 16, 16, 16), texture2D);
-                    //GUI.EndGroup();
-                    //GUI.DrawTextureWithTexCoords(new Rect(x * tile.x + mapViewOffset.x, y * tile.y + mapViewOffset.y, tile.x, tile.y), texture2D,
-                    //                             new Rect(35, 35, 16, 16));
                 }
             }
             #endregion GUI Display
