@@ -13,12 +13,13 @@ public static class MapData{
     public static string mapName;
 
     public static int[,] tempMap;
+    public static Vector2[,] tempMapCoords;
     private static string currentMap;
 
     private static int[] exitInts = { 17, 32 };
     private static int[] pathInts = { 114, 115, 116, 117, 118, 131, 132, 133, 135, 149, 150, 151, 152};
     private static int[] groundInts = { 0, 1, 2, 3, 18, 19, 20, 35, 36, 27, 157 };
-    private static int[] waterInts = { 10, 11, 12, 13, 14, 15, 16, 27, 28, 30, 31, 32, 33 };
+    private static int[] waterInts = { 10, 11, 12, 13, 14, 15, 16, 27, 28, 30, 31, 32, 33, 44, 45, 46, 47, 48, 49, 50 };
     private static int[] hillInts = { 107, 108, 109, 124, 125, 126, 140, 141, 142, 143, 174 };
     private static int[] treeInts = { 4, 21, 55, 72 };
     private static int[] buildingInts = { 52, 53, 172, 188 };
@@ -34,6 +35,7 @@ public static class MapData{
         textureDimension = new Vector2(newTextureSize.x / 16, newTextureSize.y / 16);
         currentSprite = 0;
         currentSelectedCoords = Vector2.zero;
+        tempMapCoords = new Vector2[x, y];
         tempMap = new int[x, y];
         currentMap = "";
         mapName = name;
@@ -48,11 +50,11 @@ public static class MapData{
     public static void ExportMap()
     {
         currentMap = "";
-        currentMap += mapDimensions.x + "_" + mapDimensions.y + "_\n";
-        
-        for(int x = 0; x < mapDimensions.x; x++)
+        currentMap += mapDimensions.x + "_" + mapDimensions.y + "_";
+        currentMap += texture.name + "_\n";
+        for(int y = 0; y < mapDimensions.x; y++)
         {
-            for(int y = 0; y < mapDimensions.y; y++)
+            for(int x = 0; x < mapDimensions.y; x++)
             {
                 for(int i = 0; i < wallInts.Length; i++)
                 {
@@ -122,9 +124,15 @@ public static class MapData{
             }
             currentMap += "\n";
         }
-
+        currentMap = currentMap.Substring(0, currentMap.Length - 2);
         Debug.Log(currentMap);
         // Put export here
+        System.IO.File.WriteAllText("Assets/" + saveDestination + "/" + mapName + ".txt", currentMap);
+    }
+
+    public static void AddNewCoords(int x, int y, Vector2 coord)
+    {
+        tempMapCoords[x, y] = new Vector2(coord.x, (int)Mathf.Abs(coord.y - textureDimension.y + 1));
     }
 
 }

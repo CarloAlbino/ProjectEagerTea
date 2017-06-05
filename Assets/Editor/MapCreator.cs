@@ -159,13 +159,23 @@ public class MapEditor : EditorWindow
             for (int y = 0; y < map.y; y++)
             {
                 for (int x = 0; x < map.x; x++)
-                {
+                { 
+                    var pixels = texture2D.GetPixels((int)MapData.tempMapCoords[x, y].x * (int)tile.x, (int)MapData.tempMapCoords[x, y].y * (int)tile.y, (int)tile.x, (int)tile.y);
+                    var newTexture = new Texture2D((int)tile.x, (int)tile.y);
+                    newTexture.SetPixels(pixels);
+                    newTexture.Apply();
+
+                    GUI.DrawTexture(new Rect(x * tile.x + mapViewOffset.x, y * tile.y + mapViewOffset.y, tile.x, tile.y), newTexture);
+
                     //GUI.DrawTextureWithTexCoords(new Rect(x * tile.x + mapViewOffset.x, y * tile.y + mapViewOffset.y, tile.x, tile.y), texture2D,
                     //                               new Rect(((int)(MapData.tempMap[x, y] / MapData.textureDimension.x) + 1) * 16, ((int)(MapData.tempMap[x, y] % MapData.textureDimension.y) + 1) * 16, 16, 16));
                     //GUI.DrawTextureWithTexCoords(new Rect(x * tile.x + mapViewOffset.x, y * tile.y + mapViewOffset.y, tile.x, tile.y), texture2D,
                     //                               new Rect(MapData.currentSelectedCoords.x * 16 + 1, MapData.currentSelectedCoords.y * 16 + 1, 16, 16));
-                    GUI.DrawTextureWithTexCoords(new Rect(x * tile.x + mapViewOffset.x, y * tile.y + mapViewOffset.y, tile.x, tile.y), texture2D,
-                                                  new Rect(35, 35, 16, 16));
+                    //GUI.BeginGroup(new Rect(x * tile.x + mapViewOffset.x, y * tile.y + mapViewOffset.y, tile.x, tile.y));
+                    //GUI.Label(new Rect(-((int)(MapData.tempMap[x, y] / MapData.textureDimension.x) + 1) * 16, -((int)(MapData.tempMap[x, y] % MapData.textureDimension.y) + 1) * 16, 16, 16), texture2D);
+                    //GUI.EndGroup();
+                    //GUI.DrawTextureWithTexCoords(new Rect(x * tile.x + mapViewOffset.x, y * tile.y + mapViewOffset.y, tile.x, tile.y), texture2D,
+                    //                             new Rect(35, 35, 16, 16));
                 }
             }
             #endregion GUI Display
@@ -200,7 +210,7 @@ public class MapEditor : EditorWindow
                     // Set the currently selected sprite accordingly
                     MapData.currentSprite = (int)(currentSelection.y * grid.x + currentSelection.x);
                     MapData.currentSelectedCoords = currentSelection;
-                    Debug.Log("X: " + MapData.currentSelectedCoords.x * 16 + " Y: " + MapData.currentSelectedCoords.y * 16);
+                    //Debug.Log("X: " + MapData.currentSelectedCoords.x * 16 + " Y: " + MapData.currentSelectedCoords.y * 16);
                 }
             }
             else
@@ -231,6 +241,8 @@ public class MapEditor : EditorWindow
                 {
                     // Set new tile
                     MapData.SetTile((int)mapHover.x, (int)mapHover.y);
+                    //MapData.tempMapCoords[(int)mapHover.x, (int)mapHover.y] = MapData.currentSelectedCoords;
+                    MapData.AddNewCoords((int)mapHover.x, (int)mapHover.y, MapData.currentSelectedCoords);
                 }
             }
             #endregion GUI Input
