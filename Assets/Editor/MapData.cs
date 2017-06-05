@@ -19,13 +19,24 @@ public static class MapData{
     private static int[] exitInts = { 17, 32 };
     private static int[] pathInts = { 114, 115, 116, 117, 118, 131, 132, 133, 135, 149, 150, 151, 152};
     private static int[] groundInts = { 0, 1, 2, 3, 18, 19, 20, 35, 36, 37, 157 };
-    private static int[] waterInts = { 10, 11, 12, 13, 14, 15, 16, 27, 28, 30, 31, 32, 33, 44, 45, 46, 47, 48, 49, 50 };
+    private static int[] waterInts = { 10, 11, 12, 13, 14, 15, 16, 27, 28, 30, 31, 32, 33, 45, 46, 47, 48, 49, 50 };
     private static int[] hillInts = { 107, 108, 109, 124, 125, 126, 140, 141, 142, 143, 174 };
     private static int[] treeInts = { 4, 21, 55, 72 };
     private static int[] buildingInts = { 52, 53, 172, 188 };
     private static int[] wallInts = { 5, 6, 7, 8, 9, 22, 23, 24, 25, 26, 38, 39, 40, 41, 56, 57, 58, 59, 60, 62, 63, 64, 65, 66, 67,
                                 73, 74, 75, 76, 77, 79, 81, 82, 84, 89, 90, 91, 92, 96, 97, 98, 99, 100, 101, 158, 159, 160, 161, 162,
-                                171, 175, 176, 177, 178, 179, 189, 191, 192, 193, 194};
+                                171, 175, 176, 177, 178, 179, 189, 191, 192, 193, 194, 44};
+
+    private static int[] exitInts2 = { 17, 32 };
+    private static int[] pathInts2 = { 114, 115, 116, 117, 118, 131, 132, 133, 135, 149, 150, 151, 152 };
+    private static int[] groundInts2 = { 17, 34, 2, 3, 18, 19, 20, 35, 36, 37, 106 };
+    private static int[] waterInts2 = { 10, 11, 12, 13, 14, 15, 16, 27, 28, 30, 31, 32, 33, 44, 45, 46, 47, 48, 49, 50 };
+    private static int[] hillInts2 = { 56, 57, 58, 73, 74, 75, 89, 90, 91, 92, 123 };
+    private static int[] treeInts2 = { 4, 21 };
+    private static int[] buildingInts2 = { 1, 2, 121, 137 };
+    private static int[] wallInts2 = { 5, 6, 7, 8, 9, 22, 23, 24, 25, 26, 38, 39, 40, 41, 62, 63, 64, 65, 66, 67,
+                                79, 81, 82, 84, 96, 97, 98, 99, 100, 101, 107, 108, 109, 110, 111,
+                                120, 124, 125, 126, 127, 128, 138, 140, 141, 142, 143, 44};
 
     public static void NewMap(int x, int y, Texture2D t, string name, string dest)
     {
@@ -54,89 +65,180 @@ public static class MapData{
         currentMap += texture.name + "_\n";
 
         bool found = false;
-        for(int y = 0; y < mapDimensions.x; y++)
+
+        if (texture.name == "Forest")
         {
-            for(int x = 0; x < mapDimensions.y; x++)
+            for (int y = 0; y < mapDimensions.x; y++)
             {
-                for(int i = 0; i < wallInts.Length; i++)
+                for (int x = 0; x < mapDimensions.y; x++)
                 {
-                    if(tempMap[x, y] == wallInts[i])
+                    for (int i = 0; i < wallInts.Length; i++)
                     {
-                        currentMap += "x=" + tempMap[x, y];
-                        found = true;
-                        break;
+                        if (tempMap[x, y] == wallInts[i])
+                        {
+                            currentMap += "x=" + tempMap[x, y];
+                            found = true;
+                            break;
+                        }
                     }
-                }
-                for (int i = 0; i < buildingInts.Length; i++)
-                {
-                    if (tempMap[x, y] == buildingInts[i])
+                    for (int i = 0; i < buildingInts.Length; i++)
                     {
-                        currentMap += "b=" + tempMap[x, y];
-                        found = true;
-                        break;
+                        if (tempMap[x, y] == buildingInts[i])
+                        {
+                            currentMap += "b=" + tempMap[x, y];
+                            found = true;
+                            break;
+                        }
                     }
-                }
-                for (int i = 0; i < treeInts.Length; i++)
-                {
-                    if (tempMap[x, y] == treeInts[i])
+                    for (int i = 0; i < treeInts.Length; i++)
                     {
-                        currentMap += "t=" + tempMap[x, y];
-                        found = true;
-                        break;
+                        if (tempMap[x, y] == treeInts[i])
+                        {
+                            currentMap += "t=" + tempMap[x, y];
+                            found = true;
+                            break;
+                        }
                     }
-                }
-                for (int i = 0; i < hillInts.Length; i++)
-                {
-                    if (tempMap[x, y] == hillInts[i])
+                    for (int i = 0; i < hillInts.Length; i++)
                     {
-                        currentMap += "h=" + tempMap[x, y];
-                        found = true;
-                        break;
+                        if (tempMap[x, y] == hillInts[i])
+                        {
+                            currentMap += "h=" + tempMap[x, y];
+                            found = true;
+                            break;
+                        }
                     }
-                }
-                for (int i = 0; i < waterInts.Length; i++)
-                {
-                    if (tempMap[x, y] == waterInts[i])
+                    for (int i = 0; i < waterInts.Length; i++)
                     {
-                        currentMap += "w=" + tempMap[x, y];
-                        found = true;
-                        break;
+                        if (tempMap[x, y] == waterInts[i])
+                        {
+                            currentMap += "w=" + tempMap[x, y];
+                            found = true;
+                            break;
+                        }
                     }
-                }
-                for (int i = 0; i < groundInts.Length; i++)
-                {
-                    if (tempMap[x, y] == groundInts[i])
+                    for (int i = 0; i < groundInts.Length; i++)
                     {
-                        currentMap += "g=" + tempMap[x, y];
-                        found = true;
-                        break;
+                        if (tempMap[x, y] == groundInts[i])
+                        {
+                            currentMap += "g=" + tempMap[x, y];
+                            found = true;
+                            break;
+                        }
                     }
-                }
-                for (int i = 0; i < pathInts.Length; i++)
-                {
-                    if (tempMap[x, y] == pathInts[i])
+                    for (int i = 0; i < pathInts.Length; i++)
                     {
-                        currentMap += "p=" + tempMap[x, y];
-                        found = true;
-                        break;
+                        if (tempMap[x, y] == pathInts[i])
+                        {
+                            currentMap += "p=" + tempMap[x, y];
+                            found = true;
+                            break;
+                        }
                     }
-                }
-                for (int i = 0; i < exitInts.Length; i++)
-                {
-                    if (tempMap[x, y] == exitInts[i])
+                    for (int i = 0; i < exitInts.Length; i++)
                     {
-                        currentMap += "e=" + tempMap[x, y];
-                        found = true;
-                        break;
+                        if (tempMap[x, y] == exitInts[i])
+                        {
+                            currentMap += "e=" + tempMap[x, y];
+                            found = true;
+                            break;
+                        }
                     }
+                    if (!found)
+                    {
+                        currentMap += "g=0";
+                    }
+                    currentMap += ",";
                 }
-                if(!found)
-                {
-                    currentMap += "g=0";
-                }
-                currentMap += ",";
+                currentMap += "\n";
             }
-            currentMap += "\n";
+        }
+        else
+        {
+            for (int y = 0; y < mapDimensions.x; y++)
+            {
+                for (int x = 0; x < mapDimensions.y; x++)
+                {
+                    for (int i = 0; i < wallInts2.Length; i++)
+                    {
+                        if (tempMap[x, y] == wallInts2[i])
+                        {
+                            currentMap += "x=" + tempMap[x, y];
+                            found = true;
+                            break;
+                        }
+                    }
+                    for (int i = 0; i < buildingInts2.Length; i++)
+                    {
+                        if (tempMap[x, y] == buildingInts2[i])
+                        {
+                            currentMap += "b=" + tempMap[x, y];
+                            found = true;
+                            break;
+                        }
+                    }
+                    for (int i = 0; i < treeInts2.Length; i++)
+                    {
+                        if (tempMap[x, y] == treeInts2[i])
+                        {
+                            currentMap += "t=" + tempMap[x, y];
+                            found = true;
+                            break;
+                        }
+                    }
+                    for (int i = 0; i < hillInts2.Length; i++)
+                    {
+                        if (tempMap[x, y] == hillInts2[i])
+                        {
+                            currentMap += "h=" + tempMap[x, y];
+                            found = true;
+                            break;
+                        }
+                    }
+                    for (int i = 0; i < waterInts2.Length; i++)
+                    {
+                        if (tempMap[x, y] == waterInts2[i])
+                        {
+                            currentMap += "w=" + tempMap[x, y];
+                            found = true;
+                            break;
+                        }
+                    }
+                    for (int i = 0; i < groundInts2.Length; i++)
+                    {
+                        if (tempMap[x, y] == groundInts2[i])
+                        {
+                            currentMap += "g=" + tempMap[x, y];
+                            found = true;
+                            break;
+                        }
+                    }
+                    for (int i = 0; i < pathInts2.Length; i++)
+                    {
+                        if (tempMap[x, y] == pathInts2[i])
+                        {
+                            currentMap += "p=" + tempMap[x, y];
+                            found = true;
+                            break;
+                        }
+                    }
+                    for (int i = 0; i < exitInts2.Length; i++)
+                    {
+                        if (tempMap[x, y] == exitInts2[i])
+                        {
+                            currentMap += "e=" + tempMap[x, y];
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found)
+                    {
+                        currentMap += "g=0";
+                    }
+                    currentMap += ",";
+                }
+                currentMap += "\n";
+            }
         }
         currentMap = currentMap.Substring(0, currentMap.Length - 2);
         Debug.Log(currentMap);
