@@ -58,17 +58,19 @@ namespace AI
         {
             gridWidth = x;// Mathf.RoundToInt(x / squareSize);
             gridHeight = y;// Mathf.RoundToInt(y / squareSize);
-            squareSize /= 2;
+            //squareSize /= 2;
             gridDimensions = new Vector2(gridWidth * squareSize, gridHeight * squareSize);
 
             // Create the grid here
             CreateGrid();
         }
 
-        public void SetGridTile(int x, int y, ENodeTypes type)
+        public void SetGridTile(int x, int y, ENodeTypes type, string file, string spriteNum)
         {
             m_grid[x, y].nodeType = type;
             m_grid[x, y].ResetColour();
+
+            m_grid[x, y].SetSprite(file, spriteNum);
         }
 
         private void CreateGrid()
@@ -81,7 +83,7 @@ namespace AI
                 for (int y = 0; y < gridHeight; y++)
                 {
                     Vector3 newNodePos = gridTopLeft + Vector3.right * (x * squareSize) + Vector3.down * (y * squareSize);
-                    ENodeTypes newType = ENodeTypes.Floor;
+                    ENodeTypes newType = ENodeTypes.Path;
 
                     m_grid[x, y] = Instantiate(nodeTilePrefab, newNodePos, transform.rotation);
                     m_grid[x, y].SetDefaults(newType, newNodePos, x, y);
@@ -98,11 +100,12 @@ namespace AI
 
         public bool IsWalkable(int x, int y)
         {
-            if (m_grid[x, y].nodeType == ENodeTypes.Floor ||
-                m_grid[x, y].nodeType == ENodeTypes.Water)
-                return true;
-            else
+            if (m_grid[x, y].nodeType == ENodeTypes.TypeCount ||
+                m_grid[x, y].nodeType == ENodeTypes.None ||
+                m_grid[x, y].nodeType == ENodeTypes.Wall)
                 return false;
+            else
+                return true;
         }
 
         public Node NodeFromWorldPoint(Vector3 worldPosition)
