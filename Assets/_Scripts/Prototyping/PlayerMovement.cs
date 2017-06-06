@@ -80,13 +80,13 @@ public class PlayerMovement : MonoBehaviour {
     private bool Move()
 	{
 
-        if (m_grid.getPosAt((int)m_position.x, (int)m_position.y).z != 1)
+        /*if (m_grid.getPosAt((int)m_position.x, (int)m_position.y).z != 1)
         {
             transform.position = m_grid.getPosAt((int)m_position.x, (int)m_position.y);
             return true;
         }
 
-        else
+       */// else
             return false;
     }
 
