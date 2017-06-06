@@ -96,6 +96,9 @@ public class Grid2 : MonoBehaviour {
 
     }
 
+    
+    
+
 
 
 	//Method for getting world position
