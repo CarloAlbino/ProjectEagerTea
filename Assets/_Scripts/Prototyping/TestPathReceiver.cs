@@ -12,6 +12,7 @@ public class TestPathReceiver : MonoBehaviour {
     private Node startNode = null; //startNode and endNode set to null at the start
     private Node endNode = null;
 
+
     float counter = 0;
     Node prevNode = null;
     private GameObject player;
@@ -55,28 +56,38 @@ public class TestPathReceiver : MonoBehaviour {
     //Set PathNode function
     public void SetPathNode(Node node)
     {
-        if (startNode == null)
-        {
-            startNode = node;
-            m_grid = startNode.GetComponentInParent<Grid>();
-            node.SetColour(Colors.Red); //Starting node gets set to Red
-        }
-        else if (endNode == null)
-        {
-            endNode = node;
-            path = pathfinding.GetPath(m_grid, startNode, endNode); // Asks for a path here (grid, start and end node are passd in)
-            node.SetColour(Colors.Yellow);
-        }
-        else
-        {
-            startNode.ResetColour();
-            endNode.ResetColour();
-            startNode = node;
-            endNode = null;
-            node.SetColour(Colors.Red);
-        }
+        //1. Reference to the players world position
+       
+        //First click only
+         if (startNode == null)
+         {
+            if()
+
+
+                startNode = node;
+             m_grid = startNode.GetComponentInParent<Grid>();
+             node.SetColour(Colors.Red); //Starting node gets set to Red
+         }
+         else if (endNode == null)
+         {
+             endNode = node;
+             path = pathfinding.GetPath(m_grid, startNode, endNode); // Asks for a path here (grid, start and end node are passd in)
+             node.SetColour(Colors.Yellow);
+         }
+         else
+         {
+             startNode.ResetColour();
+             endNode.ResetColour();
+             startNode = node;
+             endNode = null;
+             node.SetColour(Colors.Red);
+         }
+         
     }
 
+
+
+    //DONT NEED
 
     //Set players position function
     public void setPlayer(GameObject p)
