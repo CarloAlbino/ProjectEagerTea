@@ -91,6 +91,9 @@ namespace AI
         {
             //FindObjectOfType<Pathfinding>().SetPathNode(this);
             FindObjectOfType<TestPathReceiver>().SetPathNode(this);
+
+            
+
         }
 
         public int heapIndex { get { return m_heapIndex; } set { m_heapIndex = value; } }
