@@ -61,10 +61,8 @@ public class TestPathReceiver : MonoBehaviour {
         //First click only
          if (startNode == null)
          {
-            if()
-
-
-                startNode = node;
+            
+             startNode = node;
              m_grid = startNode.GetComponentInParent<Grid>();
              node.SetColour(Colors.Red); //Starting node gets set to Red
          }
