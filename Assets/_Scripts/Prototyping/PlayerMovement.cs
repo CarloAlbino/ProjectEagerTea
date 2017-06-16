@@ -88,8 +88,7 @@ public class PlayerMovement : MonoBehaviour {
             else if (endNode == null)
              {
                 //Range //Lists (return a list of nodes)
-
-
+              
                 endNode = node;
                 path = pathfinding.GetPath(m_grid, startNode, endNode); // Asks for a path here (grid, start and end node are passd in)
                 node.SetColour(Colors.Yellow);
@@ -130,30 +129,34 @@ public class PlayerMovement : MonoBehaviour {
     //The Range Function (How far the player can move)
     public void Range()
     {
+
+
         /*
-         -We will Create a List here and we will use the 'Count'
-         Property to get the number of elements in the list(The nodes).
+         -We will Create a List here and we will use the 'Capacity'
+         Property to set the number of elements for the range
         
         -If the amount of nodes are the Range limit, the player cannot move
         any further then that.
          
-        - We will use the 'Capacity' Property to set the Players Range (How far the player can move)
-        */
+         */
 
         //1. Declare the List
         List<Node> playerRange = new List<Node>();
 
-        //2. Get the Capacity
-              //code
+        //2. Set the Max Distance the player can move at.
+        playerRange.Capacity = 5;
 
-        //3. Set the Capacity
-              //Code
+
+
+
+
+
     }
 
 
-   
 
-    
+
+
 
 }
 
